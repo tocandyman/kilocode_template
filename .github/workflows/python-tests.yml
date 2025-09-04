@@ -1,0 +1,52 @@
+name: Python CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry (if pyproject present)
+        run: |
+          if [ -f pyproject.toml ]; then
+            python -m pip install --upgrade pip
+            pip install poetry
+            poetry --version
+            poetry install
+          fi
+
+      - name: Install deps (pip fallback)
+        run: |
+          if [ ! -f pyproject.toml ]; then
+            python -m pip install --upgrade pip
+            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+            if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+            pip install black isort pylint mypy pytest pytest-cov
+          fi
+
+      - name: Lint
+        run: |
+          if [ -f pyproject.toml ]; then
+            poetry run black --check .
+            poetry run isort --check-only .
+            poetry run pylint $(git ls-files '*.py') || true
+            poetry run mypy || true
+          else
+            black --check .
+            isort --check-only .
+            pylint $(git ls-files '*.py') || true
+            mypy || true
+          fi
+
+      - name: Test
+        run: |
+          if [ -f pyproject.toml ]; then
+            poetry run pytest --maxfail=1 --disable-warnings -q
+          else
+            pytest --maxfail=1 --disable-warnings -q
+          fi
