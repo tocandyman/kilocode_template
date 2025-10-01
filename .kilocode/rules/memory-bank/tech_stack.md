@@ -1,0 +1,13 @@
+# Canonical Tech Stack
+- Language: Python 3.11 (type hints required)
+- Web: FastAPI + Uvicorn
+- DB: PostgreSQL 16 + SQLAlchemy 2.x + Alembic
+- Tests: pytest + Hypothesis; coverage ≥ 85%
+- Lint/Format: ruff, black, isort
+- Typing: mypy (strict-ish)
+- Contract: OpenAPI 3.0 (openapi.yaml is source of truth)
+- CI: GitHub Actions
+- Packaging: Poetry
+- Containers: Docker, docker-compose
+- Perf: k6/locust; p95 < 300ms for baseline endpoints
+- Observability: Prometheus metrics, structured logs, OTEL traces

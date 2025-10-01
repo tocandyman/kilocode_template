@@ -1,0 +1,56 @@
+{
+  "mcpServers": {
+    "_comment": "Optional MCP servers. Set `enabled: true` to activate and ensure the command exists on PATH.",
+    "http_fetch": {
+      "enabled": false,
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-fetch"
+      ],
+      "notes": "Generic HTTP fetch; useful for HEAD/GET without full browser."
+    },
+    "clipboard": {
+      "enabled": false,
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-clipboard"
+      ],
+      "notes": "Access system clipboard (use with care; prefer read-only)."
+    },
+    "git": {
+      "enabled": false,
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-git"
+      ],
+      "env": {
+        "GIT_ALLOW_SHELL": "false"
+      },
+      "notes": "Read-only git history/diff unless explicitly allowed."
+    },
+    "openapi_local": {
+      "enabled": false,
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-openapi"
+      ],
+      "env": {
+        "OPENAPI_FILE": "openapi.yaml"
+      },
+      "notes": "Enable contract-aware queries against local OpenAPI file."
+    },
+    "docker": {
+      "enabled": false,
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-docker"
+      ],
+      "notes": "Container introspection; keep read-only by default."
+    }
+  }
+}
